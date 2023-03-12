@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMongo()
     .AddMongoRepository<Item>(collectionName: "items")
     ////register & configure mass transit & auth
-    .AddMassTrannsitWithRabbitMq()
+    .AddMassTrannsitWithMessageBroker(builder.Configuration)
     .AddJwtBearerAuthentication();
 
 builder.Services.AddAuthorization(options =>
