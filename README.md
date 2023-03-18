@@ -32,3 +32,10 @@ $cosmosDbConnString="[CONN STRING HERE]"
 $serviceBusConnString="[CONN STRING HERE]"
 docker run -it --rm -p 5000:5000 --name catalog -e MongoDbSettings__ConnectionString=$cosmosDbConnString -e ServiceBusSettings__ConnectionString=$serviceBusConnString -e ServiceSettings__MessageBroker="SERVICEBUS" play.catalog:$version
 ```
+## Publishing the Docker image
+```powershell
+$acrname="azacreconomy"
+az acr login --name $acrname
+docker tag play.catalog:$version "$acrname.azurecr.io/play.catalog:$version"
+docker push "$acrname.azurecr.io/play.catalog:$version"
+```
