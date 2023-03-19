@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Play.Catalog.Service;
 using Play.Catalog.Service.Entities;
+using Play.Common.HealthChecks;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
 using Play.Common.MongoDB;
@@ -41,6 +42,10 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "catalog.writeaccess", "catalog.fullaccess");
     });
 });
+
+builder.Services.AddHealthChecks()
+    .AddMongoDb();
+
 var app = builder.Build();
 
 
@@ -72,5 +77,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapPlayEconomyHealtChecks();
 
 app.Run();
